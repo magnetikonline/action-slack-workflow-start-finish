@@ -80,6 +80,7 @@ jobs:
 The action will determine overall status of the workflow as follows:
 
 - If all jobs succeeded - `success`.
+	- **Note:** A skipped job is still considered succeeded.
 - If one or more jobs cancelled - `cancelled` - _unless..._
 - If _any_ job has failed, overall workflow `failure`.
 
