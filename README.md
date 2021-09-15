@@ -62,14 +62,16 @@ jobs:
       # -- insert job steps here --
 
   slack-message:
+    name: Slack message
+    if: always()
+    needs:
+      # note: list *all* jobs defined above
+      - first
+      - second
+      - nth-job
+    runs-on: ubuntu-latest
     steps:
       - name: Slack message finish
-        if: always()
-        needs:
-          # note: list *all* jobs defined above
-          - first
-          - second
-          - nth-job
         uses: magnetikonline/action-slack-workflow-start-finish@v1
         with:
           channel: '#target-channel'
