@@ -1,6 +1,6 @@
-# Action Slack workflow start finish
+# GitHub Action Slack workflow start finish
 
-GitHub Action designed for posting Slack messages via an [incoming webhook](https://api.slack.com/messaging/webhooks) to denote the start and/or end of a Workflow run and the resulting job(s) status.
+Action designed for posting Slack messages via an [incoming webhook](https://api.slack.com/messaging/webhooks) to denote the start and/or end of a Workflow run and the resulting job(s) status.
 
 Offers a simple and opinionated message format, with the ability to append custom fields/values (such as build output preview URLs, generated file sizes, etc.).
 

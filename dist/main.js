@@ -6538,7 +6538,8 @@ async function main() {
 	try {
 		args = lib.parseArgs(core,github.context);
 	} catch (ex) {
-		core.error(ex.message);
+		core.setFailed(ex.message);
+		return;
 	}
 
 	// build message payload
@@ -6560,7 +6561,8 @@ async function main() {
 	try {
 		await lib.sendSlackMessage(args.slackWebhookUrl,payload);
 	} catch (ex) {
-		core.error(ex.message);
+		core.setFailed(ex.message);
+		return;
 	}
 }
 
