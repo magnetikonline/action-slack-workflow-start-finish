@@ -2,7 +2,7 @@
 
 Action designed for posting Slack messages via an [incoming webhook](https://api.slack.com/messaging/webhooks) to denote the start and/or end of a Workflow run and the resulting job(s) status.
 
-Offers a simple and opinionated message format, with the ability to append custom fields/values (such as build output preview URLs, generated file sizes, etc.).
+Offers a simple and opinionated output, with the ability to append custom fields/values (such as build output preview URLs, generated file sizes, etc.) onto generated messages.
 
 ## Usage
 
@@ -37,16 +37,20 @@ Multiple job workflow:
 
 ```yaml
 jobs:
-  first:
-    name: First job
+  slack-message-start:
+    name: Slack message start
     runs-on: ubuntu-latest
     steps:
-      - name: Slack message start
+      - name: Slack message
         uses: magnetikonline/action-slack-workflow-start-finish@v1
         with:
           channel: '#target-channel'
           webhook-url: https://hooks.slack.com/services/...
 
+  first:
+    name: First job
+    runs-on: ubuntu-latest
+    steps:
       # -- insert job steps here --
 
   second:
@@ -61,17 +65,18 @@ jobs:
     steps:
       # -- insert job steps here --
 
-  slack-message:
-    name: Slack message
+  slack-message-finish:
+    name: Slack message finish
     if: always()
     needs:
       # note: list *all* jobs defined above
+      - slack-message-start
       - first
       - second
       - nth-job
     runs-on: ubuntu-latest
     steps:
-      - name: Slack message finish
+      - name: Slack message
         uses: magnetikonline/action-slack-workflow-start-finish@v1
         with:
           channel: '#target-channel'
