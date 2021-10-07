@@ -6,21 +6,21 @@ const assert = require('assert').strict,
 
 (function testCase_parseArgs() {
 	// setup mock functions/data
-	const mockCore = {
-		getInput: function(key) {
-			return mockInputData[key] || '';
-		},
-		getMultilineInput: function(key) {
-			return (mockInputData[key] || '').split('\n');
-		},
-	};
+	const mockInputData = {},
+		mockCore = {
+			getInput: function(key) {
+				return mockInputData[key] || '';
+			},
+			getMultilineInput: function(key) {
+				return (mockInputData[key] || '').split('\n');
+			},
+		};
 
-	const mockInputData = {};
 	function mockInputDataReset() {
 		Object.assign(mockInputData,{
 			'channel': '#slack-channel',
-			'result': '',
 			'field-list': '',
+			'result': '',
 			'webhook-url': 'https://hooks.slack.com/services/ABCD/EFGH/12345',
 		});
 	}
@@ -231,7 +231,7 @@ const assert = require('assert').strict,
 		{
 			channel: '#test-channel',
 			color: '#ffa500',
-			fallback: 'Workflow Example has started',
+			fallback: 'Workflow "Example" has started',
 			fields: [
 				{
 					short: false,
@@ -275,7 +275,7 @@ const assert = require('assert').strict,
 		{
 			channel: '#test-channel',
 			color: '#2eb886',
-			fallback: 'Workflow Example has finished successfully',
+			fallback: 'Workflow "Example" has finished successfully',
 			fields: [
 				{
 					short: false,
@@ -320,7 +320,7 @@ const assert = require('assert').strict,
 		{
 			channel: '#test-channel',
 			color: '#2eb886',
-			fallback: 'Workflow Example has finished successfully',
+			fallback: 'Workflow "Example" has finished successfully',
 			fields: [
 				{
 					short: false,
