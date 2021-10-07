@@ -133,28 +133,28 @@ const assert = require('assert').strict,
 	mockInputData.channel = '';
 	assert.throws(
 		() => { lib.parseArgs(mockCore,mockContext); },
-		/^Error: Input Slack channel not set$/
+		/^Error: input Slack channel not set$/
 	);
 
 	mockInputDataReset();
 	mockInputData.result = 'unknown';
 	assert.throws(
 		() => { lib.parseArgs(mockCore,mockContext); },
-		/^Error: Input result value of \[unknown\] was unexpected$/
+		/^Error: input result value of \[unknown\] was unexpected$/
 	);
 
 	mockInputDataReset();
 	mockInputData['webhook-url'] = '';
 	assert.throws(
 		() => { lib.parseArgs(mockCore,mockContext); },
-		/^Error: Input Slack Incoming Webhook URL has unexpected format$/
+		/^Error: input Slack Incoming Webhook URL has unexpected format$/
 	);
 
 	mockInputDataReset();
 	mockInputData['webhook-url'] = 'https://invalid.webhook.url.com/foo';
 	assert.throws(
 		() => { lib.parseArgs(mockCore,mockContext); },
-		/^Error: Input Slack Incoming Webhook URL has unexpected format$/
+		/^Error: input Slack Incoming Webhook URL has unexpected format$/
 	);
 })();
 
@@ -190,12 +190,12 @@ const assert = require('assert').strict,
 	// test: unknown result values throws error
 	assert.throws(
 		() => { lib.parseArgsResult('foo'); },
-		/^Error: Input result value of \[foo\] was unexpected$/
+		/^Error: input result value of \[foo\] was unexpected$/
 	);
 
 	assert.throws(
 		() => { lib.parseArgsResult('success|blurg'); },
-		/^Error: Input result value of \[blurg\] was unexpected$/
+		/^Error: input result value of \[blurg\] was unexpected$/
 	);
 
 	// test: various job result collections and overall result for workflow determined
