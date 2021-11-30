@@ -1,5 +1,7 @@
 # GitHub Action Slack workflow start finish
 
+[![Test](https://github.com/magnetikonline/action-slack-workflow-start-finish/actions/workflows/test.yaml/badge.svg)](https://github.com/magnetikonline/action-slack-workflow-start-finish/actions/workflows/test.yaml)
+
 Action designed for posting Slack messages via an [incoming webhook](https://api.slack.com/messaging/webhooks) to denote the start and/or end of a Workflow run and the resulting job(s) status.
 
 Offers a simple and opinionated output, with the ability to append custom fields/values (such as build output preview URLs, generated file sizes, etc.) onto generated messages.
