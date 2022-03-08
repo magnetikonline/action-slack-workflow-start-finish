@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Slack message start
-        uses: magnetikonline/action-slack-workflow-start-finish@v1
+        uses: magnetikonline/action-slack-workflow-start-finish@v2
         with:
           channel: '#target-channel'
           webhook-url: https://hooks.slack.com/services/...
@@ -28,7 +28,7 @@ jobs:
 
       - name: Slack message finish
         if: always()
-        uses: magnetikonline/action-slack-workflow-start-finish@v1
+        uses: magnetikonline/action-slack-workflow-start-finish@v2
         with:
           channel: '#target-channel'
           result: ${{ job.status }}
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Slack message
-        uses: magnetikonline/action-slack-workflow-start-finish@v1
+        uses: magnetikonline/action-slack-workflow-start-finish@v2
         with:
           channel: '#target-channel'
           webhook-url: https://hooks.slack.com/services/...
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Slack message
-        uses: magnetikonline/action-slack-workflow-start-finish@v1
+        uses: magnetikonline/action-slack-workflow-start-finish@v2
         with:
           channel: '#target-channel'
           result: ${{ join(needs.*.result,'|') }} # final results of all jobs
@@ -106,7 +106,7 @@ jobs:
 
       - name: Slack message finish
         if: always()
-        uses: magnetikonline/action-slack-workflow-start-finish@v1
+        uses: magnetikonline/action-slack-workflow-start-finish@v2
         with:
           channel: '#target-channel'
           field-list: |
