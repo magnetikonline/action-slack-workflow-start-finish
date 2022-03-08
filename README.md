@@ -22,7 +22,7 @@ jobs:
           channel: '#target-channel'
           webhook-url: https://hooks.slack.com/services/...
       - name: Checkout source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # -- insert job steps here --
 
