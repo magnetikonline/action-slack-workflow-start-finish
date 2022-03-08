@@ -24,4 +24,4 @@ inputs:
 
 runs:
   main: ./dist/main.js
-  using: node12
+  using: node16
