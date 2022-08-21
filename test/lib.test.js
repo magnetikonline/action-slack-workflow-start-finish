@@ -236,35 +236,35 @@ const assert = require('assert/strict'),
 				{
 					short: false,
 					title: 'Repository',
-					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish|magnetikonline/action-slack-workflow-start-finish>'
+					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish|magnetikonline/action-slack-workflow-start-finish>',
 				},
 				{
 					short: false,
 					title: 'Branch',
-					value: '`main`'
+					value: '`main`',
 				},
 				{
 					short: true,
 					title: 'Workflow',
-					value: 'Example'
+					value: 'Example',
 				},
 				{
 					short: true,
 					title: 'Run number',
-					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish/actions/runs/1232306257|35>'
+					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish/actions/runs/1232306257|35>',
 				},
 				{
 					short: true,
 					title: 'Triggered by',
-					value: '<https://github.com/magnetikonline|magnetikonline>'
+					value: '<https://github.com/magnetikonline|magnetikonline>',
 				},
 				{
 					short: true,
 					title: 'Trigger event',
-					value: '`push`'
-				}
+					value: '`push`',
+				},
 			],
-			pretext: 'Workflow has *started*'
+			pretext: 'Workflow has *started*',
 		}
 	);
 
@@ -280,35 +280,35 @@ const assert = require('assert/strict'),
 				{
 					short: false,
 					title: 'Repository',
-					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish|magnetikonline/action-slack-workflow-start-finish>'
+					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish|magnetikonline/action-slack-workflow-start-finish>',
 				},
 				{
 					short: false,
 					title: 'Branch',
-					value: '`main`'
+					value: '`main`',
 				},
 				{
 					short: true,
 					title: 'Workflow',
-					value: 'Example'
+					value: 'Example',
 				},
 				{
 					short: true,
 					title: 'Run number',
-					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish/actions/runs/1232306257|35>'
+					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish/actions/runs/1232306257|35>',
 				},
 				{
 					short: true,
 					title: 'Triggered by',
-					value: '<https://github.com/magnetikonline|magnetikonline>'
+					value: '<https://github.com/magnetikonline|magnetikonline>',
 				},
 				{
 					short: true,
 					title: 'Trigger event',
-					value: '`push`'
-				}
+					value: '`push`',
+				},
 			],
-			pretext: 'Workflow has *finished successfully*'
+			pretext: 'Workflow has *finished successfully*',
 		}
 	);
 
@@ -325,40 +325,40 @@ const assert = require('assert/strict'),
 				{
 					short: false,
 					title: 'Repository',
-					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish|magnetikonline/action-slack-workflow-start-finish>'
+					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish|magnetikonline/action-slack-workflow-start-finish>',
 				},
 				{
 					short: false,
 					title: 'Branch',
-					value: '`main`'
+					value: '`main`',
 				},
 				{
 					title: 'Pull request',
 					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish/pull/123|My pull request &lt;&gt;&amp;>',
-					short: false
+					short: false,
 				},
 				{
 					short: true,
 					title: 'Workflow',
-					value: 'Example'
+					value: 'Example',
 				},
 				{
 					short: true,
 					title: 'Run number',
-					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish/actions/runs/1232306257|35>'
+					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish/actions/runs/1232306257|35>',
 				},
 				{
 					short: true,
 					title: 'Triggered by',
-					value: '<https://github.com/magnetikonline|magnetikonline>'
+					value: '<https://github.com/magnetikonline|magnetikonline>',
 				},
 				{
 					short: true,
 					title: 'Trigger event',
-					value: '`push`'
-				}
+					value: '`push`',
+				},
 			],
-			pretext: 'Workflow has *finished successfully*'
+			pretext: 'Workflow has *finished successfully*',
 		}
 	);
 })();
