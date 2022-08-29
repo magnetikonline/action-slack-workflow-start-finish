@@ -21,6 +21,7 @@ async function main() {
 		branchName: args.branchName,
 		customFieldList: args.customFieldList,
 		eventName: args.eventName,
+		githubServerUrl: args.githubServerUrl,
 		pullRequestNumber: args.pullRequestNumber,
 		pullRequestTitle: args.pullRequestTitle,
 		repositoryName: args.repositoryName,

@@ -18,6 +18,7 @@ function parseArgs(core,context) {
 		// drop leading 'refs/heads/' text
 		branchName: context.ref.replace(/^refs\/heads\//,''),
 		eventName: context.eventName,
+		githubServerUrl: context.serverUrl,
 		runId: context.runId,
 		runNumber: context.runNumber,
 		// strip leading file path when workflow name not set
@@ -131,7 +132,8 @@ function buildSlackPayload(channel,data) {
 		return `<${escape(url)}|${escape(title)}>`;
 	}
 
-	const githubRepoUrlBase = `https://github.com/${data.repositoryName}`,
+	const githubServerUrl = data.githubServerUrl,
+		githubRepoUrlBase = `${githubServerUrl}/${data.repositoryName}`,
 		payload = {
 			channel,
 			color: SLACK_MESSAGE_COLOR[data.result || 'start'],
@@ -152,7 +154,7 @@ function buildSlackPayload(channel,data) {
 
 	addField('Workflow',data.workflowName,true);
 	addField('Run number',makeSlackLink(data.runNumber,`${githubRepoUrlBase}/actions/runs/${data.runId}`),true);
-	addField('Triggered by',makeSlackLink(data.actor,`https://github.com/${data.actor}`),true);
+	addField('Triggered by',makeSlackLink(data.actor,`${githubServerUrl}/${data.actor}`),true);
 	addField('Trigger event',`\`${data.eventName}\``,true);
 
 	for (const item of data.customFieldList) {
