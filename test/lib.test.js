@@ -20,6 +20,7 @@ const assert = require('assert/strict'),
 		Object.assign(mockInputData,{
 			'channel': '#slack-channel',
 			'field-list': '',
+			'repository': 'owner-name/repository-name',
 			'result': '',
 			'webhook-url': 'https://hooks.slack.com/services/ABCD/EFGH/12345',
 		});
@@ -29,11 +30,6 @@ const assert = require('assert/strict'),
 	const mockContext = {
 		actor: 'magnetikonline',
 		eventName: 'push',
-		payload: {
-			repository: {
-				full_name: 'owner_name/repo_name',
-			},
-		},
 		ref: 'refs/heads/main',
 		runId: 1226478890,
 		runNumber: 1,
@@ -48,7 +44,7 @@ const assert = require('assert/strict'),
 			branchName: 'main',
 			customFieldList: [],
 			eventName: 'push',
-			repositoryName: 'owner_name/repo_name',
+			repositoryName: 'owner-name/repository-name',
 			result: '',
 			runId: 1226478890,
 			runNumber: 1,
@@ -58,7 +54,7 @@ const assert = require('assert/strict'),
 		}
 	);
 
-	// test: push event - workflow name set
+	// test: push event - workflow friendly name set
 	mockContext.workflow = 'Test workflow';
 	assert.deepEqual(
 		lib.parseArgs(mockCore,mockContext),
@@ -67,7 +63,7 @@ const assert = require('assert/strict'),
 			branchName: 'main',
 			customFieldList: [],
 			eventName: 'push',
-			repositoryName: 'owner_name/repo_name',
+			repositoryName: 'owner-name/repository-name',
 			result: '',
 			runId: 1226478890,
 			runNumber: 1,
@@ -87,7 +83,7 @@ const assert = require('assert/strict'),
 			branchName: 'main',
 			customFieldList: [],
 			eventName: 'push',
-			repositoryName: 'owner_name/repo_name',
+			repositoryName: 'owner-name/repository-name',
 			result: 'failure',
 			runId: 1226478890,
 			runNumber: 1,
@@ -101,12 +97,14 @@ const assert = require('assert/strict'),
 	mockInputDataReset();
 	mockContext.eventName = 'pull_request';
 	mockContext.ref = 'refs/pull/1/merge';
-	mockContext.payload.pull_request = {
-		head: {
-			ref: 'feature-branch',
+	mockContext.payload = {
+		pull_request: {
+			head: {
+				ref: 'feature-branch',
+			},
+			number: 65,
+			title: 'Pull request title',
 		},
-		number: 65,
-		title: 'Pull request title',
 	};
 
 	assert.deepEqual(
@@ -118,7 +116,7 @@ const assert = require('assert/strict'),
 			eventName: 'pull_request',
 			pullRequestNumber: 65,
 			pullRequestTitle: 'Pull request title',
-			repositoryName: 'owner_name/repo_name',
+			repositoryName: 'owner-name/repository-name',
 			result: '',
 			runId: 1226478890,
 			runNumber: 1,
@@ -132,29 +130,29 @@ const assert = require('assert/strict'),
 	mockInputDataReset();
 	mockInputData.channel = '';
 	assert.throws(
-		() => { lib.parseArgs(mockCore,mockContext); },
-		/^Error: input Slack channel not set$/
+		function() { lib.parseArgs(mockCore,mockContext); },
+		{ message: 'input Slack channel not set' }
+	);
+
+	mockInputDataReset();
+	mockInputData['repository'] = 'invalid';
+	assert.throws(
+		function() { lib.parseArgs(mockCore,mockContext); },
+		{ message: 'input GitHub repository has unexpected format' }
 	);
 
 	mockInputDataReset();
 	mockInputData.result = 'unknown';
 	assert.throws(
-		() => { lib.parseArgs(mockCore,mockContext); },
-		/^Error: input result value of \[unknown\] was unexpected$/
+		function() { lib.parseArgs(mockCore,mockContext); },
+		{ message: 'input result value of [unknown] was unexpected' }
 	);
 
 	mockInputDataReset();
 	mockInputData['webhook-url'] = '';
 	assert.throws(
-		() => { lib.parseArgs(mockCore,mockContext); },
-		/^Error: input Slack Incoming Webhook URL has unexpected format$/
-	);
-
-	mockInputDataReset();
-	mockInputData['webhook-url'] = 'https://invalid.webhook.url.com/foo';
-	assert.throws(
-		() => { lib.parseArgs(mockCore,mockContext); },
-		/^Error: input Slack Incoming Webhook URL has unexpected format$/
+		function() { lib.parseArgs(mockCore,mockContext); },
+		{ message: 'input Slack Incoming Webhook URL has unexpected format' }
 	);
 })();
 

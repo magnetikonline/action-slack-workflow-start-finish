@@ -18,7 +18,6 @@ function parseArgs(core,context) {
 		// drop leading 'refs/heads/' text
 		branchName: context.ref.replace(/^refs\/heads\//,''),
 		eventName: context.eventName,
-		repositoryName: context.payload.repository.full_name,
 		runId: context.runId,
 		runNumber: context.runNumber,
 		// strip leading file path when workflow name not set
@@ -34,7 +33,7 @@ function parseArgs(core,context) {
 		data.pullRequestTitle = prData.title;
 	}
 
-	// get inputs to action
+	// fetch and validate inputs into action
 	// input: Slack channel
 	data.slackChannel = core.getInput('channel');
 	if (data.slackChannel == '') {
@@ -43,6 +42,12 @@ function parseArgs(core,context) {
 
 	// input: custom field list
 	data.customFieldList = parseArgsCustomFieldList(core.getMultilineInput('field-list'));
+
+	// input: repository matches the format `owner-name/repository-name`
+	data.repositoryName = core.getInput('repository');
+	if (!/^[^/ ]+\/[^/ ]+$/.test(data.repositoryName)) {
+		throw new Error('input GitHub repository has unexpected format');
+	}
 
 	// input: job result(s)
 	data.result = parseArgsResult(core.getInput('result'));
