@@ -15,23 +15,24 @@ function parseArgs(core,context) {
 	// extract base context data
 	const data = {
 		actor: context.actor,
-		// drop leading 'refs/heads/' text
-		branchName: context.ref.replace(/^refs\/heads\//,''),
 		eventName: context.eventName,
 		githubServerUrl: context.serverUrl,
+		refData: parseArgsRef(context.ref),
 		runId: context.runId,
 		runNumber: context.runNumber,
 		// strip leading file path when workflow name not set
 		workflowName: context.workflow.replace(/^\.github\/workflows\//,''),
 	};
 
-	// determine branch name
 	if (context.eventName == 'pull_request') {
-		// for a pull request, extract branch name from payload - and grab number/title
+		// for a pull request extract branch name, pull request number and title from payload
 		const prData = context.payload.pull_request;
-		data.branchName = prData.head.ref;
 		data.pullRequestNumber = prData.number;
 		data.pullRequestTitle = prData.title;
+		data.refData = {
+			isTag: false,
+			name: prData.head.ref,
+		};
 	}
 
 	// fetch and validate inputs into action
@@ -60,6 +61,20 @@ function parseArgs(core,context) {
 	}
 
 	return data;
+}
+
+function parseArgsRef(ref) {
+	if (ref.startsWith('refs/tags/')) {
+		return {
+			isTag: true,
+			name: ref.slice(10), // drop `refs/tags/`
+		};
+	}
+
+	return {
+		isTag: false,
+		name: ref.replace(/^refs\/heads\//,''), // drop `refs/heads/`, if exists
+	};
 }
 
 function parseArgsCustomFieldList(fieldList) {
@@ -147,7 +162,7 @@ function buildSlackPayload(channel,data) {
 	}
 
 	addField('Repository',makeSlackLink(data.repositoryName,githubRepoUrlBase));
-	addField('Branch',`\`${data.branchName}\``);
+	addField((data.refData.isTag) ? 'Tag' : 'Branch',`\`${data.refData.name}\``);
 	if (data.pullRequestNumber) {
 		addField('Pull request',makeSlackLink(data.pullRequestTitle,`${githubRepoUrlBase}/pull/${data.pullRequestNumber}`));
 	}

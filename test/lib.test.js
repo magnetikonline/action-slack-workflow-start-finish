@@ -42,10 +42,13 @@ const assert = require('assert/strict'),
 		lib.parseArgs(mockCore,mockContext),
 		{
 			actor: 'magnetikonline',
-			branchName: 'main',
 			customFieldList: [],
 			eventName: 'push',
 			githubServerUrl: 'https://github.com',
+			refData: {
+				isTag: false,
+				name: 'main',
+			},
 			repositoryName: 'owner-name/repository-name',
 			result: '',
 			runId: 1226478890,
@@ -62,10 +65,13 @@ const assert = require('assert/strict'),
 		lib.parseArgs(mockCore,mockContext),
 		{
 			actor: 'magnetikonline',
-			branchName: 'main',
 			customFieldList: [],
 			eventName: 'push',
 			githubServerUrl: 'https://github.com',
+			refData: {
+				isTag: false,
+				name: 'main',
+			},
 			repositoryName: 'owner-name/repository-name',
 			result: '',
 			runId: 1226478890,
@@ -83,12 +89,39 @@ const assert = require('assert/strict'),
 		lib.parseArgs(mockCore,mockContext),
 		{
 			actor: 'magnetikonline',
-			branchName: 'main',
 			customFieldList: [],
 			eventName: 'push',
 			githubServerUrl: 'https://github.com',
+			refData: {
+				isTag: false,
+				name: 'main',
+			},
 			repositoryName: 'owner-name/repository-name',
 			result: 'failure',
+			runId: 1226478890,
+			runNumber: 1,
+			slackChannel: '#slack-channel',
+			slackWebhookUrl: 'https://hooks.slack.com/services/ABCD/EFGH/12345',
+			workflowName: 'Test workflow',
+		}
+	);
+
+	// test: push event - git tag
+	mockContext.ref = 'refs/tags/my-first-tag-name';
+	mockInputData.result = '';
+	assert.deepEqual(
+		lib.parseArgs(mockCore,mockContext),
+		{
+			actor: 'magnetikonline',
+			customFieldList: [],
+			eventName: 'push',
+			githubServerUrl: 'https://github.com',
+			refData: {
+				isTag: true,
+				name: 'my-first-tag-name',
+			},
+			repositoryName: 'owner-name/repository-name',
+			result: '',
 			runId: 1226478890,
 			runNumber: 1,
 			slackChannel: '#slack-channel',
@@ -115,10 +148,13 @@ const assert = require('assert/strict'),
 		lib.parseArgs(mockCore,mockContext),
 		{
 			actor: 'magnetikonline',
-			branchName: 'feature-branch',
 			customFieldList: [],
 			eventName: 'pull_request',
 			githubServerUrl: 'https://github.com',
+			refData: {
+				isTag: false,
+				name: 'feature-branch',
+			},
 			pullRequestNumber: 65,
 			pullRequestTitle: 'Pull request title',
 			repositoryName: 'owner-name/repository-name',
@@ -218,10 +254,13 @@ const assert = require('assert/strict'),
 (function testCase_buildSlackPayload() {
 	const args = {
 		actor: 'magnetikonline',
-		branchName: 'main',
 		customFieldList: [],
 		eventName: 'push',
 		githubServerUrl: 'https://github.com',
+		refData: {
+			isTag: false,
+			name: 'main',
+		},
 		repositoryName: 'magnetikonline/action-slack-workflow-start-finish',
 		result: '',
 		runId: 1232306257,
@@ -316,9 +355,54 @@ const assert = require('assert/strict'),
 		}
 	);
 
+	// test: workflow success - git tag
+	args.refData.isTag = true;
+	assert.deepEqual(
+		lib.buildSlackPayload('#test-channel',args),
+		{
+			channel: '#test-channel',
+			color: '#2eb886',
+			fallback: 'Workflow "Example" has finished successfully',
+			fields: [
+				{
+					short: false,
+					title: 'Repository',
+					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish|magnetikonline/action-slack-workflow-start-finish>',
+				},
+				{
+					short: false,
+					title: 'Tag',
+					value: '`main`',
+				},
+				{
+					short: true,
+					title: 'Workflow',
+					value: 'Example',
+				},
+				{
+					short: true,
+					title: 'Run number',
+					value: '<https://github.com/magnetikonline/action-slack-workflow-start-finish/actions/runs/1232306257|35>',
+				},
+				{
+					short: true,
+					title: 'Triggered by',
+					value: '<https://github.com/magnetikonline|magnetikonline>',
+				},
+				{
+					short: true,
+					title: 'Trigger event',
+					value: '`push`',
+				},
+			],
+			pretext: 'Workflow has *finished successfully*',
+		}
+	);
+
 	// test: associated to pull request
 	args.pullRequestNumber = 123;
 	args.pullRequestTitle = 'My pull request <>&'; // testing escape characters
+	args.refData.isTag = false;
 	assert.deepEqual(
 		lib.buildSlackPayload('#test-channel',args),
 		{
