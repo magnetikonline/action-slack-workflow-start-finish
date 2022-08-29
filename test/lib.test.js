@@ -187,13 +187,13 @@ const assert = require('assert/strict'),
 (function testCase_parseArgsResult() {
 	// test: unknown result values throws error
 	assert.throws(
-		() => { lib.parseArgsResult('foo'); },
-		/^Error: input result value of \[foo\] was unexpected$/
+		function() { lib.parseArgsResult('foo'); },
+		{ message: 'input result value of [foo] was unexpected' }
 	);
 
 	assert.throws(
-		() => { lib.parseArgsResult('success|blurg'); },
-		/^Error: input result value of \[blurg\] was unexpected$/
+		function() { lib.parseArgsResult('success|blurg'); },
+		{ message: 'input result value of [blurg] was unexpected' }
 	);
 
 	// test: various job result collections and overall result for workflow determined
