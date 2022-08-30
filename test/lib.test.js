@@ -176,7 +176,7 @@ const assert = require('assert/strict'),
 	);
 
 	mockInputDataReset();
-	mockInputData['repository'] = 'invalid';
+	mockInputData.repository = 'invalid';
 	assert.throws(
 		function() { lib.parseArgs(mockCore,mockContext); },
 		{ message: 'input GitHub repository has unexpected format' }
