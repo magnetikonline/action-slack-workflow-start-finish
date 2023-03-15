@@ -2,13 +2,18 @@
 
 [![Test](https://github.com/magnetikonline/action-slack-workflow-start-finish/actions/workflows/test.yaml/badge.svg)](https://github.com/magnetikonline/action-slack-workflow-start-finish/actions/workflows/test.yaml)
 
-Action designed for posting Slack messages via an [incoming webhook](https://api.slack.com/messaging/webhooks) to denote the start and/or end of a Workflow run and the resulting job(s) status.
+Action designed for posting Slack messages via an [incoming webhook](https://api.slack.com/messaging/webhooks) to denote the start and/or end of a Workflow run and the overall status.
 
-Offers a minimal and opinionated output, but with the ability to append custom fields (items such as build output URLs or generated file sizes) onto messages.
+Offers a minimal and opinionated output, but with the ability to append custom fields (such as build output URLs or generated file sizes) onto messages.
+
+- [Usage](#usage)
+	- [Custom message fields](#custom-message-fields)
+- [Overall workflow status decision tree](#overall-workflow-status-decision-tree)
+- [Example message](#example-message)
 
 ## Usage
 
-Single job workflow implementation:
+Single job workflow:
 
 ```yaml
 jobs:
@@ -86,14 +91,9 @@ jobs:
           webhook-url: https://hooks.slack.com/services/...
 ```
 
-The action will determine overall status of the workflow as follows:
+### Custom message fields
 
-- If all jobs succeeded - `success`.
-	- **Note:** A skipped job is still considered succeeded.
-- If one or more jobs cancelled - `cancelled` - _unless..._
-- If _any_ job has failed, overall workflow `failure`.
-
-Custom fields can be appended to the message via the `field-list:` input property:
+Custom fields can be appended to the resulting Slack message via the `field-list:` input property:
 
 ```yaml
 jobs:
@@ -115,6 +115,15 @@ jobs:
           result: ${{ job.status }}
           webhook-url: https://hooks.slack.com/services/...
 ```
+
+## Overall workflow status decision tree
+
+The following rules are used to determine the eventual status of a workflow run:
+
+- If all jobs succeed: `success`.
+	- **Note:** Skipped jobs are _still_ considered: `success`.
+- If one or more jobs cancelled: `cancelled` - _unless..._
+- If _any_ job fails, overall workflow: `failure`.
 
 ## Example message
 
