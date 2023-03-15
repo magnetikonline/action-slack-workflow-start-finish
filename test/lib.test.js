@@ -186,7 +186,7 @@ const assert = require('assert/strict'),
 	mockInputData.result = 'unknown';
 	assert.throws(
 		function() { lib.parseArgs(mockCore,mockContext); },
-		{ message: 'input result value of [unknown] was unexpected' }
+		{ message: 'input result value of [unknown] unexpected' }
 	);
 
 	mockInputDataReset();
@@ -229,12 +229,12 @@ const assert = require('assert/strict'),
 	// test: unknown result values throws error
 	assert.throws(
 		function() { lib.parseArgsResult('foo'); },
-		{ message: 'input result value of [foo] was unexpected' }
+		{ message: 'input result value of [foo] unexpected' }
 	);
 
 	assert.throws(
 		function() { lib.parseArgsResult('success|blurg'); },
-		{ message: 'input result value of [blurg] was unexpected' }
+		{ message: 'input result value of [blurg] unexpected' }
 	);
 
 	// test: various job result collections and overall result for workflow determined

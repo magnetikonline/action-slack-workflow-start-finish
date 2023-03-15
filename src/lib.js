@@ -99,8 +99,8 @@ function parseArgsResult(result) {
 	let finalResult = 'success';
 	for (const item of result.split('|')) {
 		// confirm result value is valid
-		if (!['success','failure','cancelled','skipped'].includes(item)) {
-			throw new Error(`input result value of [${item}] was unexpected`);
+		if (!['cancelled','failure','skipped','success'].includes(item)) {
+			throw new Error(`input result value of [${item}] unexpected`);
 		}
 
 		if (item === 'failure') {
@@ -109,11 +109,12 @@ function parseArgsResult(result) {
 		}
 
 		if (item === 'cancelled') {
-			// any job cancelled - overall result _might_ be cancelled (unless something failed)
+			// any job cancelled - overall result _might_ be cancelled
+			// unless a following job resulted in `failure`
 			finalResult = item;
 		}
 
-		// 'success' or 'skipped' - move along
+		// result 'success' or 'skipped' - move along
 	}
 
 	return finalResult;
