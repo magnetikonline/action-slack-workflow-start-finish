@@ -36,7 +36,7 @@ jobs:
         uses: magnetikonline/action-slack-workflow-start-finish@v2
         with:
           channel: '#target-channel'
-          result: ${{ job.status }}
+          result: ${{ job.status }} # final result of job
           webhook-url: https://hooks.slack.com/services/...
 ```
 
@@ -91,6 +91,28 @@ jobs:
           webhook-url: https://hooks.slack.com/services/...
 ```
 
+Message only for workflow cancelled or failure with specific branch:
+
+```yaml
+jobs:
+  main:
+    name: Message on job failure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      # -- insert job steps here --
+
+      - name: Slack message failure
+        if: (cancelled() || failure()) && (github.ref == 'refs/heads/main')
+        uses: magnetikonline/action-slack-workflow-start-finish@v2
+        with:
+          channel: '#target-channel'
+          result: ${{ job.status }} # final result of job
+          webhook-url: https://hooks.slack.com/services/...
+```
+
 ### Custom message fields
 
 Custom fields can be appended to the resulting Slack message via the `field-list:` input property:
@@ -101,7 +123,6 @@ jobs:
     name: Single job
     runs-on: ubuntu-latest
     steps:
-
       # -- insert job steps here --
 
       - name: Slack message finish
