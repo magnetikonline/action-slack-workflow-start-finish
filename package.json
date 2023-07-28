@@ -7,8 +7,8 @@
 		"@actions/github": "^5.1.1"
 	},
 	"devDependencies": {
-		"esbuild": "^0.15.10",
-		"eslint": "^8.36.0"
+		"esbuild": "^0.18.17",
+		"eslint": "^8.45.0"
 	},
 	"private": true
 }
