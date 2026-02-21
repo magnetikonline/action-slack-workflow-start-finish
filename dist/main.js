@@ -24024,7 +24024,7 @@ var lib = require_lib();
 var core = require_core();
 var github = require_github();
 async function main() {
-  let args = {};
+  let args;
   try {
     args = lib.parseArgs(core, github.context);
   } catch (err) {
